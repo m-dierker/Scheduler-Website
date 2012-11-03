@@ -123,7 +123,7 @@ require_once("config.php");
       <hr>
 
       <div class="row-fluid marketing" id="mainMarketing">
-        <div class="span12" id="mainform" class="hideStStart">
+        <div class="span12" id="mainform" class="hideAtStart">
           <form method="GET" action="#">
             <p class="lead" id="#welcome-text">Start here by picking what you'd like to schedule</p>
             <div class="tabbable" style="margin-bottom: 18px;">
