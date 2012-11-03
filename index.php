@@ -1,22 +1,62 @@
 
+<?php
+
+require_once("config.php");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>UIUC Online Dashboard</title>
+    <title>Scheduler - Facebook Hackathon 2012</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Online dashboard">
-    <meta name="author" content="Matthew Dierker, Brian Doherty">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
     <!-- Le styles -->
     <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <style>
+    <link href="/css/bootstrap/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/css/bootstrap/datepicker.css" rel="stylesheet">
+    <link href="/css/bootstrap/timepicker.css" rel="stylesheet">
+    <link href="/css/site.css" rel="stylesheet">
+
+    <style type="text/css">
       body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-top: 20px;
+        padding-bottom: 40px;
+      }
+
+      /* Custom container */
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
       }
     </style>
-    <link href="/css/bootstrap/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="/css/site.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -30,16 +70,23 @@
     <div id="fb-root"></div>
     <script>
       window.fbAsyncInit = function() {
-        // init the FB JS SDK
+        // Init the FB JS SDK
         FB.init({
-          appId      : '260235980765125', // App ID from the App Dashboard
-          channelUrl : '//my.eatcumtd.com/channel.php', // Channel File for x-domain communication
+          appId      : '<?php echo FACEBOOK_APP_ID; ?>', // App ID from the App Dashboard
+          channelUrl : '//schedule.eatcumtd.com/channel.php', // Channel File for x-domain communication
           status     : true, // check the login status upon init?
           cookie     : true, // set sessions cookies to allow your server to access the session?
           xfbml      : true  // parse XFBML tags on this page?
         });
 
+        FB.getLoginStatus(function(response) {
+          this.onLogin(response);
+        }.bind(this));
+
         // Additional initialization code such as adding Event Listeners goes here
+        FB.Event.subscribe('auth.authResponseChange', function(response) {
+          this.onLogin(response);
+        }.bind(this));
 
       };
 
@@ -54,42 +101,94 @@
     </script>
     <!-- End Facebook Code -->
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">CS 397</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="container-narrow">
 
-    <div class="container" id="main-container">
-      <!-- Begin Content -->
-
-      <div class="valign-middle-wrap">
-        <div id="facebook-login" class="valign-middle">
-          <p>
-            <img src="http://placehold.it/300x40">
-          </p>
-        </div>
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="http://www.github.com/mvd7793/">GitHub</a></li>
+          <li><a href="http://www.dierkers.com">Contact</a></li>
+        </ul>
+        <h3 class="muted" style="margin-bottom: 0px;">Scheduler</h3><h5 class="muted" style="margin-top: 0px; margin-bottom: 0px;">By Matthew Dierker</h5>
       </div>
 
+      <hr>
+
+      <div class="jumbotron">
+        <h1>Schedule anything</h1>
+        <p class="lead">Sign in below to schedule texts, calls, and more. Anytime.</p>
+        <fb:login-button id="login-button" size="large" show-faces="false" class="hideAtStart">Schedule with Facebook</fb:login-button>
+      </div>
+
+      <hr>
+
+      <div class="row-fluid marketing" id="mainMarketing">
+        <div class="span12" id="mainform" class="hideStStart">
+          <form method="GET" action="#">
+            <p class="lead" id="#welcome-text">Start here by picking what you'd like to schedule</p>
+            <div class="tabbable" style="margin-bottom: 18px;">
+              <ul class="nav nav-tabs">
+                <li class="active" id="type4"><a href="#call" data-toggle="tab">Schedule a Call</a></li>
+                <li class="" id="type3"><a href="#sms" data-toggle="tab">Schedule a Text</a></li>
+              </ul>
+              <div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+                <div class="tab-pane active" id="call">
+                  <input type="text" class="input-block-level" placeholder="Phone number" name="to" id="to">
+                  <textarea placeholder="What would you like the call to say?" style="width: 98%; height: 4em" name="msg" id="msg"></textarea>
+                </div>
+                <div class="tab-pane" id="sms">
+                  <div class="tab-pane active" id="call">
+                  <input type="text" class="input-block-level" placeholder="Phone number" name="to" id="to1">
+                  <textarea placeholder="What would you like the call to say?" style="width: 98%; height: 4em" name="msg" id="msg1"></textarea>
+                </div>
+                </div>
+              </div>
+            </div>
+            <p class="lead">And now pick when to schedule it</p>
+            <div class="input-append date" id="dp3" data-date="11-03-2012" data-date-format="mm-dd-yyyy" style="display:inline">
+              <input class="span2" size="16" type="text" value="11-03-2012" readonly="">
+              <span class="add-on"><i class="icon-calendar"></i></span>
+            </div>
+
+            <p style="display:inline; margin: 0 25px; font-size: 16px" class="lead">at</p>
+
+            <div class="input-append bootstrap-timepicker-component" style="display:inline;">
+              <input class="timepicker-1 input-small" type="text">
+                <span class="add-on">
+                  <i class="icon-time"></i>
+                </span>
+            </div>
+
+             <p style="display:inline; margin: 0 10px; font-size: 16px" class="lead"> (time in CST)</p>
+
+            <div style="margin-top: 10px;" id="final-button">
+              <input type="submit" class="btn btn-large btn-success"></input>
+            </div>
+            <div style="margin-top: 10px" id="final-done" class="hideAtStart">
+              <p class="lead">Done! Your event has been scheduled.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <hr style="margin: 10px 0">
+
+      <p class="lead" style="font-size: 12px">Please note that this is a breakable demo, and events not from Matthew's Facebook will not be procesed. <br>If you would like test access, <a href="http://facebook.com/mdierker">send me a message</a>.</p>
+
+    <!--   <div class="footer">
+        <p>&copy; Matthew Dierker 2012</p>
+      </div>
+ -->
 
 
       <!-- End Content -->
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="/js/bootstrap/bootstrap.min/js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/bootstrap/bootstrap-datepicker.js"></script>
+    <script src="/js/bootstrap/bootstrap-timepicker.js"></script>
+    <script src="js/site.js"></script>
 
   </body>
 </html>

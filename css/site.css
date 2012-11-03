@@ -1,24 +1,12 @@
-#main-container {
-    position: absolute;
-    top: 60px;
-    height: 90%;
-    width: 100%;
-    text-align: center;
+.hideAtStart {
+    display:none;
 }
 
-.valign-middle-wrap {
-    position:relative;
-    height: inherit;
+#mainMarketing {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
-.valign-middle {
-    position: absolute;
-    top: 50%;
-    margin-top: -5em;
-    text-align: center;
-    width: 100%;
-}
-
-#facebook-login p {
-    text-align: center;
+[class^="icon-"], [class*=" icon-"] {
+    background-image: url("/img/glyphicons-halflings.png");
 }

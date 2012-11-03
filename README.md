@@ -1,4 +1,4 @@
-CS397-Project
+Schedule Website
 =============
 
-Online Dashboard for UIUC Students
+Website for scheduler
