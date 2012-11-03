@@ -130,6 +130,7 @@ require_once("config.php");
               <ul class="nav nav-tabs">
                 <li class="active" id="type4"><a href="#call" data-toggle="tab">Schedule a Call</a></li>
                 <li class="" id="type3"><a href="#sms" data-toggle="tab">Schedule a Text</a></li>
+                <li class="" id="type5"><a href="#mail" data-toggle="tab">Schedule an Email</a></li>
               </ul>
               <div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
                 <div class="tab-pane active" id="call">
@@ -137,10 +138,13 @@ require_once("config.php");
                   <textarea placeholder="What would you like the call to say?" style="width: 98%; height: 4em" name="msg" id="msg"></textarea>
                 </div>
                 <div class="tab-pane" id="sms">
-                  <div class="tab-pane active" id="call">
                   <input type="text" class="input-block-level" placeholder="Phone number" name="to" id="to1">
-                  <textarea placeholder="What would you like the call to say?" style="width: 98%; height: 4em" name="msg" id="msg1"></textarea>
+                  <textarea placeholder="What would you like the text to say?" style="width: 98%; height: 4em" name="msg" id="msg1"></textarea>
                 </div>
+                <div class="tab-pane" id="mail">
+                  <input type="text" class="input-block-level" placeholder="Email address" name="to" id="to2">
+                  <input type="text" class="input-block-level" placeholder="Subject" name="subj" id="subj2">
+                  <textarea placeholder="What would you like the email to say?" style="width: 98%; height: 4em" name="msg" id="msg2"></textarea>
                 </div>
               </div>
             </div>

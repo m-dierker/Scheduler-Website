@@ -31,17 +31,28 @@ $('#final-button input').click(function(e) {
         type = 3;
     } else if ($('#type4').hasClass('active')) {
         type = 4;
+    } else if ($('#type5').hasClass('active')) {
+        type = 5;
     }
 
     var to = $('input#to').val();
     if (to == '') {
         to = $('input#to1').val();
     }
+    if (to == '') {
+        to = $('input#to2').val();
+    }
+
 
     var msg = $('textarea#msg').val()
     if(msg == '') {
         msg = $('textarea#msg1').val()
     }
+    if(msg == '') {
+        msg = $('textarea#msg2').val()
+    }
+
+    var subj = $('input#subj2').val();
 
     var dateString = $('#dp3 input').val();
     var timeString = $('.bootstrap-timepicker-component input').val();
@@ -71,6 +82,7 @@ $('#final-button input').click(function(e) {
         '&to=' + to +
         '&msg=' + msg +
         '&type=' + type +
+        '&subj=' + subj +
         '&time=' + time;
 
     console.log(url);
