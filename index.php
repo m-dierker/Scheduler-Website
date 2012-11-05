@@ -62,6 +62,12 @@ require_once("config.php");
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/js/bootstrap/bootstrap-datepicker.js"></script>
+    <script src="/js/bootstrap/bootstrap-timepicker.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/Schedule.js"></script>
   </head>
 
   <body>
@@ -69,6 +75,9 @@ require_once("config.php");
     <!-- Start Facebook Code -->
     <div id="fb-root"></div>
     <script>
+
+
+
       window.fbAsyncInit = function() {
         // Init the FB JS SDK
         FB.init({
@@ -78,16 +87,6 @@ require_once("config.php");
           cookie     : true, // set sessions cookies to allow your server to access the session?
           xfbml      : true  // parse XFBML tags on this page?
         });
-
-        FB.getLoginStatus(function(response) {
-          this.onLogin(response);
-        }.bind(this));
-
-        // Additional initialization code such as adding Event Listeners goes here
-        FB.Event.subscribe('auth.authResponseChange', function(response) {
-          this.onLogin(response);
-        }.bind(this));
-
       };
 
       // Load the SDK's source Asynchronously
@@ -117,13 +116,15 @@ require_once("config.php");
       <div class="jumbotron">
         <h1>Schedule anything</h1>
         <p class="lead">Sign in below to schedule texts, calls, and more. Anytime.</p>
-        <fb:login-button id="login-button" size="large" show-faces="false" class="hideAtStart">Schedule with Facebook</fb:login-button>
+        <div class="hideAtStart" id="login-button">
+          <fb:login-button id="login-button" size="large" show-faces="false">Schedule with Facebook</fb:login-button>
+        </div>
       </div>
 
       <hr>
 
       <div class="row-fluid marketing" id="mainMarketing">
-        <div class="span12" id="mainform" class="hideAtStart">
+        <div class="span12 hideAtStart" id="mainform">
           <form method="GET" action="#">
             <p class="lead" id="#welcome-text">Start here by picking what you'd like to schedule</p>
             <div class="tabbable" style="margin-bottom: 18px;">
@@ -149,15 +150,16 @@ require_once("config.php");
               </div>
             </div>
             <p class="lead">And now pick when to schedule it</p>
-            <div class="input-append date" id="dp3" data-date="11-03-2012" data-date-format="mm-dd-yyyy" style="display:inline">
-              <input class="span2" size="16" type="text" value="11-03-2012" readonly="">
+
+            <div class="input-append date" data-date="<?php echo date('m-d-Y') ?>" style="display: inline;">
+              <input class="span2" size="16" type="text" id="datepicker" value="<?php echo date('m-d-Y') ?>" >
               <span class="add-on"><i class="icon-calendar"></i></span>
             </div>
 
             <p style="display:inline; margin: 0 25px; font-size: 16px" class="lead">at</p>
 
             <div class="input-append bootstrap-timepicker-component" style="display:inline;">
-              <input class="timepicker-1 input-small" type="text">
+              <input class="timepicker-1 input-small" type="text" id="timepicker">
                 <span class="add-on">
                   <i class="icon-time"></i>
                 </span>
@@ -187,12 +189,5 @@ require_once("config.php");
 
       <!-- End Content -->
     </div>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="/js/bootstrap/bootstrap.min.js"></script>
-    <script src="/js/bootstrap/bootstrap-datepicker.js"></script>
-    <script src="/js/bootstrap/bootstrap-timepicker.js"></script>
-    <script src="js/site.js"></script>
-
   </body>
 </html>
