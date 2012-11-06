@@ -23,30 +23,37 @@ Schedule.prototype.onFacebookLogin = function(response) {
  * Sets up the datepicker
  */
 Schedule.prototype.setupDatepicker = function() {
-    console.log("Datepicker setup");
     // Setup datepicker format + show + hide
     $('#datepicker').datepicker({
         format: 'mm-dd-yyyy',
         weekStart: 0
-    }).on('show', function(e) {
-        console.log("datepicker seen");
-        this.datepickerVisible = true;
-    }.bind(this)).on('hide', function(e) {
+    }).on('hide', function(e) {
+        console.log("on hide");
         this.datepickerVisible = false;
+    }).focus(function(e) {
+        this.datepickerVisible = false;
+        $('#datepicker').datepicker('show');
     }.bind(this));
 
     // The icon needs to be clickable too
     $('#datepicker').parent().find('.icon-calendar').click(function(e) {
         $('#datepicker').datepicker('show');
+        this.datepickerVisible = true;
         e.stopPropagation();
-    });
+    }.bind(this));
 
     // The icon can show, but now it should hide when the user clicks somewhere else
     $("body").click(function(e) {
         if(this.datepickerVisible) {
+            console.log("hiding");
             $('#datepicker').datepicker('hide');
         }
     }.bind(this));
+
+    // Fill in the default value for datepicker
+    var date = new Date();
+    var dateString = "" + padWithZeros(date.getMonth()+1, 2) + '-' + padWithZeros(date.getDate(), 2) + '-' + date.getFullYear();
+    $('#datepicker').val(dateString);
 };
 
 
@@ -148,6 +155,7 @@ Schedule.prototype.submitEvent = function(e) {
 
 window.onload = function(e) {
     var schedule = new Schedule();
+    window.schedule = schedule;
 
     FB.getLoginStatus(function(response) {
         schedule.onFacebookLogin(response);

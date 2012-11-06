@@ -75,9 +75,6 @@ require_once("config.php");
     <!-- Start Facebook Code -->
     <div id="fb-root"></div>
     <script>
-
-
-
       window.fbAsyncInit = function() {
         // Init the FB JS SDK
         FB.init({
@@ -125,7 +122,7 @@ require_once("config.php");
 
       <div class="row-fluid marketing" id="mainMarketing">
         <div class="span12 hideAtStart" id="mainform">
-          <form method="GET" action="#">
+          <form method="POST" action="#">
             <p class="lead" id="#welcome-text">Start here by picking what you'd like to schedule</p>
             <div class="tabbable" style="margin-bottom: 18px;">
               <ul class="nav nav-tabs">
@@ -151,8 +148,8 @@ require_once("config.php");
             </div>
             <p class="lead">And now pick when to schedule it</p>
 
-            <div class="input-append date" data-date="<?php echo date('m-d-Y') ?>" style="display: inline;">
-              <input class="span2" size="16" type="text" id="datepicker" value="<?php echo date('m-d-Y') ?>" >
+            <div class="input-append date" data-date="<?php echo date('m-d') ?>" style="display: inline;">
+              <input class="span2" size="16" type="text" id="datepicker" value="<?php echo date('m-d') ?>" >
               <span class="add-on"><i class="icon-calendar"></i></span>
             </div>
 
