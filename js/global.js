@@ -24,10 +24,27 @@ function stripLeadingZeroes(input)
       return input;
 }
 
+/**
+ * Returns a number padded with zeros until it is at least size
+ *
+ * ex: padWithZeros('15', 4) = 0015
+ */
 function padWithZeros(num, size) {
     var s = num+"";
     while (s.length < size) {
       s = "0" + s;
     }
     return s;
+}
+
+/**
+ * Stops an event's propogation if it's at all possible
+ */
+function killEventWithFire(e) {
+    e.cancel=true;
+    e.returnValue=false;
+    e.cancelBubble=true;
+    if (e.stopPropagation) e.stopPropagation();
+    if (e.preventDefault) e.preventDefault();
+    return false;
 }

@@ -28,7 +28,6 @@ Schedule.prototype.setupDatepicker = function() {
         format: 'mm-dd-yyyy',
         weekStart: 0
     }).on('hide', function(e) {
-        console.log("on hide");
         this.datepickerVisible = false;
     }).focus(function(e) {
         this.datepickerVisible = false;
@@ -45,7 +44,6 @@ Schedule.prototype.setupDatepicker = function() {
     // The icon can show, but now it should hide when the user clicks somewhere else
     $("body").click(function(e) {
         if(this.datepickerVisible) {
-            console.log("hiding");
             $('#datepicker').datepicker('hide');
         }
     }.bind(this));
@@ -68,11 +66,18 @@ Schedule.prototype.setupTimepicker = function() {
         disableFocus: true,
         showMeridian: true
     });
+
+    var date = new Date();
+    var hour = date.getHours();
+    var dateString = "" + padWithZeros(hour%12, 2) + ':' + padWithZeros(date.getMinutes(), 2) + ':' + padWithZeros(Math.floor(date.getSeconds() / 5) * 5, 2) + ' ' + (hour < 12 ? 'AM' : 'PM');
+
+    $('#timepicker').val(dateString);
 };
 
 Schedule.prototype.setupSubmitButton = function() {
     $('#final-button input').click(function(e) {
         this.submitEvent(e);
+        killEventWithFire(e);
     }.bind(this));
 }
 
@@ -127,10 +132,6 @@ Schedule.prototype.submitEvent = function(e) {
 
     time += 21600;
 
-    console.log(dateString);
-    console.log(timeString);
-    console.log(time);
-
     var url = "http://schedule-server.eatcumtd.com/add?access_token="
         + FB.getAuthResponse()['accessToken'] +
         '&to=' + to +
@@ -156,13 +157,4 @@ Schedule.prototype.submitEvent = function(e) {
 window.onload = function(e) {
     var schedule = new Schedule();
     window.schedule = schedule;
-
-    FB.getLoginStatus(function(response) {
-        schedule.onFacebookLogin(response);
-    }.bind(this));
-
-    // Additional initialization code such as adding Event Listeners goes here
-    FB.Event.subscribe('auth.authResponseChange', function(response) {
-        schedule.onFacebookLogin(response);
-    }.bind(this));
 }

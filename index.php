@@ -84,7 +84,18 @@ require_once("config.php");
           cookie     : true, // set sessions cookies to allow your server to access the session?
           xfbml      : true  // parse XFBML tags on this page?
         });
+
+        FB.getLoginStatus(function(response) {
+          schedule.onFacebookLogin(response);
+        }.bind(this));
+
+        // Additional initialization code such as adding Event Listeners goes here
+        FB.Event.subscribe('auth.authResponseChange', function(response) {
+          schedule.onFacebookLogin(response);
+        }.bind(this));
       };
+
+
 
       // Load the SDK's source Asynchronously
       (function(d){
@@ -122,7 +133,7 @@ require_once("config.php");
 
       <div class="row-fluid marketing" id="mainMarketing">
         <div class="span12 hideAtStart" id="mainform">
-          <form method="POST" action="#">
+          <form method="GET" action="http://google.com">
             <p class="lead" id="#welcome-text">Start here by picking what you'd like to schedule</p>
             <div class="tabbable" style="margin-bottom: 18px;">
               <ul class="nav nav-tabs">
@@ -148,15 +159,15 @@ require_once("config.php");
             </div>
             <p class="lead">And now pick when to schedule it</p>
 
-            <div class="input-append date" data-date="<?php echo date('m-d') ?>" style="display: inline;">
-              <input class="span2" size="16" type="text" id="datepicker" value="<?php echo date('m-d') ?>" >
+            <div class="input-append date" style="display: inline;">
+              <input class="span2" size="16" type="text" id="datepicker" >
               <span class="add-on"><i class="icon-calendar"></i></span>
             </div>
 
             <p style="display:inline; margin: 0 25px; font-size: 16px" class="lead">at</p>
 
             <div class="input-append bootstrap-timepicker-component" style="display:inline;">
-              <input class="timepicker-1 input-small" type="text" id="timepicker">
+              <input class="input-small" type="text" id="timepicker">
                 <span class="add-on">
                   <i class="icon-time"></i>
                 </span>
