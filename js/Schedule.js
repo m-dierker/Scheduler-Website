@@ -69,7 +69,11 @@ Schedule.prototype.setupTimepicker = function() {
 
     var date = new Date();
     var hour = date.getHours();
-    var dateString = "" + padWithZeros(hour%12, 2) + ':' + padWithZeros(date.getMinutes(), 2) + ':' + padWithZeros(Math.floor(date.getSeconds() / 5) * 5, 2) + ' ' + (hour < 12 ? 'AM' : 'PM');
+    hour %= 12;
+    if (hour == 0) {
+        hour = 12;
+    }
+    var dateString = "" + padWithZeros(hour, 2) + ':' + padWithZeros(date.getMinutes(), 2) + ':' + padWithZeros(Math.floor(date.getSeconds() / 5) * 5, 2) + ' ' + (hour < 12 ? 'AM' : 'PM');
 
     $('#timepicker').val(dateString);
 };
